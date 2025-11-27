@@ -1,0 +1,31 @@
+#ifndef SPEAKER_H
+#define SPEAKER_H
+
+#define BUZZER 6
+
+void initSpeaker() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void distanceBeep(int d) {  // MODO NORMAL
+  if (d > 80) noTone(BUZZER);
+  else if (d > 40) tone(BUZZER, 900, 120);
+  else if (d > 20) tone(BUZZER, 1300, 100);
+  else tone(BUZZER, 2000, 80);
+}
+
+void preciseBeep(int d) {   // MODO PRECISO
+  if (d > 60) noTone(BUZZER);
+  else if (d > 30) tone(BUZZER, 1000, 100);
+  else if (d > 15) tone(BUZZER, 1500, 80);
+  else tone(BUZZER, 2500, 60);
+}
+
+void longBeep(int d) {      // MODO LONGO
+  if (d > 120) noTone(BUZZER);
+  else if (d > 60) tone(BUZZER, 800, 150);
+  else if (d > 30) tone(BUZZER, 1100, 120);
+  else tone(BUZZER, 1800, 90);
+}
+
+#endif
