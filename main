@@ -1,0 +1,51 @@
+#include "sensor.h"
+#include "lcd_display.h"
+#include "speaker.h"
+#include "buttons.h"
+
+void setup() {
+  Serial.begin(9600);
+
+  initSensor();
+  initLCD();
+  initSpeaker();
+  initButtons();
+
+  Serial.println("Sistema SPA Iniciado");
+}
+
+void loop() {
+  checkButtons();
+  int d = getDistance();
+  showDistance(d);
+
+  // ----- Logica dos Modos -----
+  if (modo == 0) { // MODO NORMAL
+    if (d > 80) showWarning("Seguro");
+    else if (d > 40) showWarning("Aproximar");
+    else if (d > 20) showWarning("Cuidado!");
+    else showWarning("!!! PARAR !!!");
+
+    distanceBeep(d);
+  }
+
+  else if (modo == 1) { // MODO PRECISO
+    if (d > 60) showWarning("Preciso: OK");
+    else if (d > 30) showWarning("Preciso: Aproxim");
+    else if (d > 15) showWarning("Preciso: Atencao");
+    else showWarning("!!! PARAR !!!");
+
+    preciseBeep(d);
+  }
+
+  else if (modo == 2) { // MODO LONGO
+    if (d > 120) showWarning("Longo: Longinho");
+    else if (d > 60) showWarning("Longo: Aproxima");
+    else if (d > 30) showWarning("Longo: Perto");
+    else showWarning("!!! PARAR !!!");
+
+    longBeep(d);
+  }
+
+  delay(120);
+}
