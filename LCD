@@ -1,0 +1,54 @@
+#ifndef LCD_DISPLAY_H
+#define LCD_DISPLAY_H
+
+#include <LiquidCrystal.h>
+
+extern int modo;
+
+// RS, E, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// Símbolo ⚠
+byte alertSymbol[8] = {
+  B00100,
+  B01110,
+  B01110,
+  B01110,
+  B00100,
+  B00000,
+  B00100,
+  B00000
+};
+
+void initLCD() {
+  lcd.begin(16, 2);
+  lcd.createChar(0, alertSymbol);
+
+  lcd.setCursor(0,0);
+  lcd.print("Smart Parking");
+  lcd.setCursor(0,1);
+  lcd.print("Assistant");
+  delay(1200);
+  lcd.clear();
+}
+
+void showDistance(int d) {
+  lcd.setCursor(0, 0);
+  lcd.print("Dist: ");
+  lcd.print(d);
+  lcd.print(" cm   ");
+
+  // ---- Indicador de nível (modo) ----
+  lcd.setCursor(15, 0);   // canto superior direito
+  lcd.print(modo);        // mostra 0, 1 ou 2
+}
+
+void showWarning(String msg) {
+  lcd.setCursor(0, 1);
+  lcd.write(byte(0));   // símbolo ⚠
+  lcd.print(" ");
+  lcd.print(msg);
+  lcd.print("     ");
+}
+
+#endif
