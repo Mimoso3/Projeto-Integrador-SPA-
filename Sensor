@@ -1,0 +1,26 @@
+#ifndef SENSOR_H
+#define SENSOR_H
+
+#define TRIG 9
+#define ECHO 8
+
+void initSensor() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+}
+
+int getDistance() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long duracao = pulseIn(ECHO, HIGH);
+  int dist = duracao * 0.034 / 2;
+
+  if (dist < 2 || dist > 300) return 300;
+  return dist;
+}
+
+#endif
